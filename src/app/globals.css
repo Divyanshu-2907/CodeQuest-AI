@@ -1,0 +1,321 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #7F77DD;
+  --color-background: #080809;
+  --color-surface: #0F0F12;
+  --color-surface-2: #151519;
+  --color-surface-3: #1C1C22;
+  --color-muted: #6B6A72;
+  --color-muted-light: #9998A3;
+  --color-border: #1E1E26;
+  --color-border-bright: #2A2A35;
+  --font-sans: var(--font-inter);
+  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #080809;
+  color: #E8E8F0;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scanline overlay (cinematic grain) ─── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Custom scrollbar ─── */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #2A2A35; border-radius: 2px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #7F77DD; }
+
+/* ─── Circuit border accent ─── */
+.circuit-border {
+  position: relative;
+}
+.circuit-border::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 24px; height: 24px;
+  border-top: 1px solid #7F77DD;
+  border-left: 1px solid #7F77DD;
+}
+.circuit-border::after {
+  content: "";
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 24px; height: 24px;
+  border-bottom: 1px solid #7F77DD;
+  border-right: 1px solid #7F77DD;
+}
+
+/* ─── Glitch text effect ─── */
+@keyframes glitch {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  10% { clip-path: inset(20% 0 60% 0); transform: translate(-2px, 1px); }
+  20% { clip-path: inset(50% 0 30% 0); transform: translate(2px, -1px); }
+  30% { clip-path: inset(10% 0 80% 0); transform: translate(-1px, 2px); }
+  40% { clip-path: inset(70% 0 10% 0); transform: translate(1px, -2px); }
+  50% { clip-path: inset(40% 0 40% 0); transform: translate(0); }
+}
+
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #7F77DD;
+  animation: glitch 4s infinite;
+}
+.glitch::before { color: #ff0055; animation-delay: 0.1s; opacity: 0.6; }
+.glitch::after  { color: #00ffaa; animation-delay: 0.2s; opacity: 0.4; }
+
+/* ─── XP bar shimmer ─── */
+@keyframes xp-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+.xp-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: xp-shimmer 2s infinite;
+}
+
+/* ─── Pulsing active dot ─── */
+@keyframes active-ping {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(1.4); }
+}
+.active-dot { animation: active-ping 1.5s ease-in-out infinite; }
+
+/* ─── Terminal cursor blink ─── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.terminal-cursor { animation: cursor-blink 1s step-end infinite; }
+
+/* ─── Typewriter ─── */
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ─── Level up flash ─── */
+@keyframes level-up-flash {
+  0%   { opacity: 0; transform: scale(0.8); }
+  20%  { opacity: 1; transform: scale(1.05); }
+  80%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1); }
+}
+.level-up-anim { animation: level-up-flash 4s ease forwards; }
+
+/* ─── Screen vignette ─── */
+.vignette {
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+}
+
+/* ─── Mono font utility ─── */
+.font-mono { font-family: var(--font-mono); }
+
+/* ─── Neon text ─── */
+.neon-purple { color: #7F77DD; text-shadow: 0 0 12px rgba(127,119,221,0.6); }
+.neon-green  { color: #1D9E75; text-shadow: 0 0 12px rgba(29,158,117,0.5); }
+
+/* ─── Card hover lift ─── */
+.card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.card-lift:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(127,119,221,0.15); }
+
+/* ─── Sidebar nav link active state ─── */
+.nav-active {
+  background: rgba(127,119,221,0.12);
+  color: #7F77DD;
+  border-left: 2px solid #7F77DD;
+}
+
+/* ─── Mission tag types ─── */
+.tag-main   { background: rgba(127,119,221,0.15); color: #AFA9EC; border: 1px solid rgba(127,119,221,0.3); }
+.tag-side   { background: rgba(29,158,117,0.12);  color: #5DCAA5; border: 1px solid rgba(29,158,117,0.3); }
+.tag-boss   { background: rgba(216,90,48,0.12);   color: #F0997B; border: 1px solid rgba(216,90,48,0.3); }
+
+/* ─── Hero Page Titles & Comment Tags ─── */
+
+/* Hero page titles — SYSTEM TERMINAL, NEURAL CITY etc */
+.city-heading {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  /* Subtle etched look */
+  text-shadow:
+    0 0 40px rgba(127, 119, 221, 0.25),
+    0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Alternative — more angular, less sci-fi */
+.city-heading-alt {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+/* The // comment tag above headings */
+.heading-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: #534AB7;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Blinking cursor after tag */
+.heading-tag::after {
+  content: "█";
+  animation: cursor-blink 1s step-end infinite;
+  color: #7F77DD;
+  font-size: 10px;
+}
+
+/* Status badge next to heading (SYS_OK, GRID_ONLINE) */
+.heading-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 16px;
+  position: relative;
+  top: -4px;
+}
+
+.heading-badge-green {
+  background: rgba(29, 158, 117, 0.12);
+  color: #5DCAA5;
+  border: 1px solid rgba(29, 158, 117, 0.35);
+}
+
+.heading-badge-purple {
+  background: rgba(127, 119, 221, 0.12);
+  color: #AFA9EC;
+  border: 1px solid rgba(127, 119, 221, 0.3);
+}
+
+/* Glitch variant for extra drama (use sparingly — hero only) */
+.city-heading-glitch {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  position: relative;
+}
+
+.city-heading-glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #7F77DD;
+  clip-path: polygon(0 15%, 100% 15%, 100% 30%, 0 30%);
+  transform: translateX(-2px);
+  opacity: 0.5;
+  animation: glitch-slice 5s infinite;
+}
+
+.city-heading-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #1D9E75;
+  clip-path: polygon(0 65%, 100% 65%, 100% 75%, 0 75%);
+  transform: translateX(2px);
+  opacity: 0.35;
+  animation: glitch-slice 5s infinite 0.3s;
+}
+
+@keyframes glitch-slice {
+  0%, 90%, 100% { transform: translateX(0); opacity: 0; }
+  92%            { transform: translateX(-3px); opacity: 0.5; }
+  94%            { transform: translateX(3px); opacity: 0.35; }
+  96%            { transform: translateX(-1px); opacity: 0.4; }
+  98%            { transform: translateX(0); opacity: 0; }
+}
+
+/* ─── Ethereal Glassmorphism Utilities ─── */
+.glass-panel {
+  background: rgba(20, 20, 24, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+}
+
+.glass-active {
+  background: rgba(127, 119, 221, 0.08);
+  border: 1px solid rgba(127, 119, 221, 0.4);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    0 0 20px 0 rgba(127, 119, 221, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.ambient-glow {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: rgba(127,119,221,0.15);
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}

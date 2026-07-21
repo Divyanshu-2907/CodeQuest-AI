@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import PricingComponent from '../components/Pricing.astro';
+import FAQ from '../components/FAQ.astro';
+import CTA from '../components/CTA.astro';
+---
+
+<BaseLayout
+  title="Pricing — CodeQuest AI"
+  description="Transparent pricing for CodeQuest AI. Start for free and go Pro to unlock advanced chapters like RAG and AI Agents."
+>
+  <Nav />
+  
+  <main class="pt-20">
+    <PricingComponent />
+    <FAQ />
+    <CTA />
+  </main>
+  
+</BaseLayout>

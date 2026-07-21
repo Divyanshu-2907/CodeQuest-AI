@@ -1,0 +1,62 @@
+---
+---
+<section
+  id="hero"
+  class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-20"
+>
+  <!-- Top label -->
+  <div class="page-tag justify-center mb-6">
+    // NEURAL_CITY_BROADCAST
+  </div>
+
+  <!-- H1 — most important SEO element -->
+  <h1
+    class="page-heading glitch text-5xl md:text-7xl lg:text-8xl mb-6 max-w-4xl mx-auto"
+    data-text="Learn AI/ML Like You're Playing GTA"
+  >
+    Learn AI/ML<br />
+    <span style="color: #7F77DD;">Like You're Playing GTA</span>
+  </h1>
+
+  <p class="text-base md:text-lg max-w-2xl mx-auto mb-10" style="color: #9998A3; line-height: 1.7;">
+    Master machine learning, RAG pipelines, and AI agents through
+    story-driven missions. Earn XP. Climb the leaderboard.
+    Actually remember what you learned.
+  </p>
+
+  <!-- CTAs -->
+  <div class="flex flex-col sm:flex-row items-center gap-4 mb-16">
+    <a
+      href="http://localhost:3000"
+      class="font-mono font-bold px-8 py-3.5 rounded transition-all hover:opacity-90"
+      style="background: #7F77DD; color: #EEEDFE; letter-spacing: 0.08em; font-size: 13px;"
+    >
+      START FREE — NO CREDIT CARD
+    </a>
+    <a
+      href="#how-it-works"
+      class="font-mono font-bold px-8 py-3.5 rounded transition-all"
+      style="background: rgba(127,119,221,0.08); color: #AFA9EC; border: 1px solid rgba(127,119,221,0.25); font-size: 13px; letter-spacing: 0.06em;"
+    >
+      SEE HOW IT WORKS ↓
+    </a>
+  </div>
+
+  <!-- Social proof stats — static HTML, zero JS, fast to index -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto w-full">
+    {[
+      { num: "2,400+", label: "Developers" },
+      { num: "5",      label: "Story Chapters" },
+      { num: "20+",    label: "AI Missions" },
+      { num: "Free",   label: "To Start" },
+    ].map(s => (
+      <div
+        class="py-4 px-3 rounded text-center"
+        style="background: #0A0A0D; border: 1px solid #1A1A22;"
+      >
+        <div class="font-display font-black text-2xl" style="color: #7F77DD;">{s.num}</div>
+        <div class="font-mono text-[10px] mt-1" style="color: #6B6A72; letter-spacing: 0.08em;">{s.label.toUpperCase()}</div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title="CodeQuest AI — Transmission Log"
+  description="Insights, tutorials, and field notes from the frontiers of AI development."
+>
+  <Nav />
+  
+  <main class="pt-32 pb-24 px-6 border-t border-[var(--border)] relative bg-[var(--bg-base)] min-h-screen">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-16">
+        <div class="page-tag">
+          // SYSTEM_TRANSMISSIONS
+        </div>
+        <h1 class="page-heading text-4xl md:text-6xl mb-4">Transmission Log</h1>
+        <p class="text-[var(--text-secondary)] text-sm border-l-2 pl-3" style="border-color: var(--purple);">
+          Insights, tutorials, and field notes from the frontiers of AI development.
+        </p>
+      </div>
+      
+      <div class="space-y-6">
+        {posts.map(post => (
+          <article class="lift p-6 rounded-lg relative flex flex-col" style="background: var(--bg-surface-2); border: 1px solid var(--border);">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-mono text-[10px] uppercase tracking-widest text-[var(--purple-dim)]">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              </span>
+              <span class="text-[var(--text-muted)]">/</span>
+              <span class="font-mono text-[10px] uppercase tracking-widest text-[var(--green-dim)]">
+                {post.data.tags.join(', ')}
+              </span>
+            </div>
+            <a href={`/blog/${post.id}`} class="group no-underline">
+              <h2 class="text-xl font-display font-bold text-[var(--text-primary)] mb-3 group-hover:text-[var(--purple-dim)] transition-colors">
+                {post.data.title}
+              </h2>
+            </a>
+            <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-6 max-w-2xl">
+              {post.data.description}
+            </p>
+            <a href={`/blog/${post.id}`} class="font-mono text-[11px] font-bold tracking-widest text-[var(--purple)] uppercase hover:text-[var(--text-primary)] transition-colors mt-auto self-start">
+              DECRYPT LOG →
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+  
+  <FinalCTA />
+  <Footer />
+</BaseLayout>

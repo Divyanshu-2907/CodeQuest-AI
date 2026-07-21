@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import FeaturesComponent from '../components/Features.astro';
+import CTA from '../components/CTA.astro';
+---
+
+<BaseLayout
+  title="Features — CodeQuest AI"
+  description="Explore the features of CodeQuest AI. Real code execution, story-driven missions, AI judge, and boss challenges."
+>
+  <Nav />
+  
+  <main class="pt-20">
+    <div class="py-20 bg-slate-950 text-center">
+      <h1 class="font-display font-bold text-4xl md:text-6xl text-white mb-6">Deep Dive Features</h1>
+      <p class="text-xl text-slate-400 max-w-3xl mx-auto">Discover what makes CodeQuest AI the ultimate platform for learning machine learning.</p>
+    </div>
+    
+    <FeaturesComponent />
+    <CTA />
+  </main>
+  
+</BaseLayout>

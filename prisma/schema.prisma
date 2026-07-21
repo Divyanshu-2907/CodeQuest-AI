@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  username               String?
+  level                  Int           @default(1)
+  xp                     Int           @default(0)
+  streak                 Int           @default(0)
+  lastActive             DateTime      @default(now())
+  userMissions           UserMission[]
+  userBadges             UserBadge[]
+  xpHistories            XpHistory[]
+  isPro                  Boolean       @default(false)
+  proSince               DateTime?
+  razorpaySubscriptionId String?
+  onboardingComplete     Boolean       @default(false)
+  starterTrack           String        @default("BEGINNER")
+}
+
+model Chapter {
+  id        String    @id @default(uuid())
+  number    Int       @unique
+  title     String
+  lore      String
+  unlockXp  Int       @default(0)
+  isLocked  Boolean   @default(true)
+  
+  npcName   String?
+  npcRole   String?
+  npcPersona String?
+
+  missions  Mission[]
+}
+
+model Mission {
+  id          String   @id @default(uuid())
+  chapterId   String
+  type        MissionType
+  title       String
+  briefing    String
+  starterCode String?
+  xpReward    Int      @default(100)
+  isLocked    Boolean  @default(true)
+  judgeHint   String?
+  
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  userMissions UserMission[]
+}
+
+enum MissionType {
+  MAIN
+  SIDE
+  BOSS
+}
+
+model UserMission {
+  id          String   @id @default(uuid())
+  userId      String
+  missionId   String
+  status      MissionStatus @default(LOCKED)
+  attempts    Int      @default(0)
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission     Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+}
+
+enum MissionStatus {
+  LOCKED
+  ACTIVE
+  COMPLETED
+}
+
+model Badge {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  iconName    String
+  
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(uuid())
+  userId    String
+  badgeId   String
+  earnedAt  DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+}
+
+model XpHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  amount    Int
+  date      DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  expiresAt             DateTime?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+}
+
+model DailyRunLimit {
+  id        String   @id @default(cuid())
+  userId    String
+  date      String
+  runCount  Int      @default(0)
+
+  @@unique([userId, date])
+}

@@ -1,0 +1,49 @@
+---
+const links = [
+  { href: "#features", label: "Features" },
+  { href: "#curriculum", label: "Curriculum" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "/blog", label: "Blog" },
+];
+---
+
+<nav
+  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
+  style="background: rgba(8,8,9,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #1A1A22;"
+  id="main-nav"
+>
+  <!-- Logo -->
+  <a href="/" class="flex items-center gap-2 no-underline">
+    <div
+      class="w-7 h-7 rounded flex items-center justify-center text-xs font-black"
+      style="background: rgba(127,119,221,0.2); color: #7F77DD; border: 1px solid rgba(127,119,221,0.4);"
+    >
+      CQ
+    </div>
+    <span class="font-display text-base font-black" style="color: #7F77DD; letter-spacing: -0.02em;">
+      CODEQUEST_
+    </span>
+  </a>
+
+  <!-- Links -->
+  <div class="hidden md:flex items-center gap-8">
+    {links.map(l => (
+      <a
+        href={l.href}
+        class="text-sm font-medium transition-colors hover:text-white"
+        style="color: #6B6A72; font-family: 'JetBrains Mono', monospace; font-size: 12px;"
+      >
+        {l.label}
+      </a>
+    ))}
+  </div>
+
+  <!-- CTA -->
+  <a
+    href="http://localhost:3000"
+    class="font-mono text-xs font-bold px-4 py-2 rounded transition-all hover:opacity-90"
+    style="background: #7F77DD; color: #EEEDFE; letter-spacing: 0.06em;"
+  >
+    START FREE →
+  </a>
+</nav>

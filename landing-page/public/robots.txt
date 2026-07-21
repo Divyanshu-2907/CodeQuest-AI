@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.codequest.ai/sitemap-index.xml

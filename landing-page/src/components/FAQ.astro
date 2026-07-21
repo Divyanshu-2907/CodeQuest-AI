@@ -1,0 +1,91 @@
+---
+const faqs = [
+  {
+    q: "Is CodeQuest AI free?",
+    a: "Yes, you can start Chapter 1 completely free, which includes 5 starter missions covering Python and Data Foundations. To access advanced chapters like RAG and AI Agents, you can upgrade to the Pro plan."
+  },
+  {
+    q: "Do I need to know Python to start?",
+    a: "Basic programming knowledge is recommended, but we teach the necessary Python data science libraries (NumPy, Pandas) right from Chapter 1. If you know variables, loops, and functions in any language, you're ready."
+  },
+  {
+    q: "How is this different from Coursera or Udemy?",
+    a: "Most platforms are passive—you watch videos and maybe do a multiple-choice quiz. CodeQuest AI is active. You are given a mission, you write real code in our browser sandbox, and an AI judge evaluates your pipeline."
+  },
+  {
+    q: "What AI/ML topics does CodeQuest AI cover?",
+    a: "We cover Data Foundations (Pandas, NumPy), ML Fundamentals (Scikit-learn, regression, classification), Vector Search & RAG (ChromaDB, OpenAI), AI Agents (LangChain, Claude API), and MLOps/Deployment."
+  },
+  {
+    q: "Can I learn LangChain and RAG on CodeQuest AI?",
+    a: "Yes! Chapters 3 and 4 are entirely dedicated to building real Retrieval-Augmented Generation pipelines and autonomous AI agents using LangChain."
+  },
+  {
+    q: "How does the AI judge work?",
+    a: "Our sandboxed environment runs your code securely. We evaluate the outputs, performance metrics (like F1 score or execution time), and then a custom Claude-powered AI analyzes your code structure to provide personalized feedback."
+  },
+  {
+    q: "Is CodeQuest AI good for beginners?",
+    a: "It's designed for developers who want to transition into AI. If you've never coded before, it might be tough. If you're a web developer or software engineer wanting to learn ML, it's perfect."
+  },
+  {
+    q: "How long does it take to complete all chapters?",
+    a: "Most developers complete the main story missions in 15-20 hours of focused coding. However, optimizing your solutions to climb the leaderboard can provide endless replayability."
+  },
+  {
+    q: "What is the difference between Free and Pro?",
+    a: "Free gives you access to Chapter 1 and basic AI feedback. Pro unlocks all 5 chapters, boss challenges, advanced AI code reviews with detailed hints, and eligibility for the global leaderboard."
+  },
+  {
+    q: "Does CodeQuest AI have a mobile app?",
+    a: "No. Writing code on a phone is a terrible experience. CodeQuest AI is designed for desktop browsers where you can focus, type comfortably, and review documentation."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.a
+    }
+  }))
+};
+---
+<section id="faq" class="py-24 px-6 border-t border-[var(--border)] relative bg-[var(--bg-base)]">
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  <div class="max-w-3xl mx-auto">
+    <div class="mb-16 text-center flex flex-col items-center">
+      <div class="page-tag justify-center">
+        // QUERY_DATABASE
+      </div>
+      <h2 class="page-heading text-3xl md:text-5xl">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="space-y-4">
+      {faqs.map(faq => (
+        <details class="group rounded-lg bg-[var(--bg-surface-2)] border border-[var(--border)] open:bg-[var(--bg-surface-3)] open:border-[var(--border-bright)] transition-colors">
+          <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-5 text-[var(--text-primary)] text-base font-display group-open:text-[var(--purple-dim)] transition-colors">
+            <span>{faq.q}</span>
+            <span class="transition group-open:rotate-180 text-[var(--text-muted)] group-open:text-[var(--purple-dim)]">
+              <svg fill="none" height="20" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="20"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </summary>
+          <div class="text-[var(--text-secondary)] text-sm px-5 pb-5 leading-relaxed border-t border-[var(--border)] pt-4 mt-1">
+            {faq.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
