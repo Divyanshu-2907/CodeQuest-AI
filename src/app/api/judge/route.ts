@@ -172,7 +172,7 @@ Ensure the response is raw JSON.`;
       });
       const completedCount = allUserMissions.length;
       
-      const earnedBadgeNames = dbUser.userBadges.map(ub => ub.badge.name);
+      const earnedBadgeNames = dbUser.userBadges.map((ub: any) => ub.badge.name);
 
       if (!earnedBadgeNames.includes("First Blood") && completedCount >= 1) {
         newBadgesToAward.push("First Blood");
