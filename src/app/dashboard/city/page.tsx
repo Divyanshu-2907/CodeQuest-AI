@@ -43,7 +43,7 @@ export default async function CityMapPage() {
     highestUnlockedIndex = 0;
   }
 
-  const chaptersWithStatus: ChapterWithStatus[] = chapters.map((chapter, index) => {
+  const chaptersWithStatus: ChapterWithStatus[] = chapters.map((chapter: any, index: number) => {
     let status: "COMPLETED" | "CURRENT" | "LOCKED" = "LOCKED";
     
     if (index < highestUnlockedIndex) {
