@@ -54,12 +54,12 @@ async function executeLocalFallback(code: string): Promise<SandboxResult> {
   const { randomUUID } = await import("crypto");
   const os = await import("os");
 
-  const tempFileName = join(os.tmpdir(), \`codequest_\${randomUUID()}.py\`);
+  const tempFileName = join(os.tmpdir(), `codequest_${randomUUID()}.py`);
   await writeFile(tempFileName, code, "utf-8");
 
   return new Promise((resolve) => {
     exec(
-      \`python "\${tempFileName}"\`,
+      `python "${tempFileName}"`,
       { timeout: 10000 },
       async (error, stdout, stderr) => {
         await unlink(tempFileName).catch(() => {});
