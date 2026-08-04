@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, ShieldAlert, CheckCircle, Wifi } from 'lucide-react';
 
-export type LogLevel = 'INFO' | 'WARNING' | 'ERROR' | 'SUCCESS' | 'GHOST' | 'NETWORK';
+export type LogLevel = 'INFO' | 'WARNING' | 'ERROR' | 'SUCCESS' | 'GHOST' | 'NETWORK' | 'SYSTEM';
 
 export interface ConsoleMessage {
   id: string;
@@ -37,6 +37,7 @@ export default function LiveConsole({ logs }: LiveConsoleProps) {
       case 'WARNING': return 'text-amber-400';
       case 'GHOST': return 'text-[#7F77DD]';
       case 'NETWORK': return 'text-cyan-400';
+      case 'SYSTEM': return 'text-purple-400';
       default: return 'text-gray-400';
     }
   };
@@ -48,6 +49,7 @@ export default function LiveConsole({ logs }: LiveConsoleProps) {
       case 'WARNING': return <ShieldAlert size={10} className="mr-1" />;
       case 'GHOST': return <Terminal size={10} className="mr-1" />;
       case 'NETWORK': return <Wifi size={10} className="mr-1" />;
+      case 'SYSTEM': return <Terminal size={10} className="mr-1" />;
       default: return null;
     }
   };

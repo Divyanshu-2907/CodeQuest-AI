@@ -178,7 +178,7 @@ Ensure the response is raw JSON.`;
         newBadgesToAward.push("First Blood");
       }
       
-      const chapter1Missions = allUserMissions.filter(um => um.mission.chapter.number === 1);
+      const chapter1Missions = allUserMissions.filter((um: any) => um.mission.chapter.number === 1);
       if (!earnedBadgeNames.includes("Data Runner") && chapter1Missions.length >= 4) {
         newBadgesToAward.push("Data Runner");
       }

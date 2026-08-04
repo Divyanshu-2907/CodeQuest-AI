@@ -40,11 +40,11 @@ export async function POST(req: Request) {
     if (event === 'subscription.activated' || event === 'subscription.charged' || isSimulated) {
       let user = null;
       if (isSimulated && payload.userId) {
-        user = await prisma.user.findUnique({ where: { clerkId: payload.userId } });
+        user = await prisma.user.findUnique({ where: { id: payload.userId } });
       } else {
         const userId = subscription.notes?.userId;
         if (userId) {
-          user = await prisma.user.findUnique({ where: { clerkId: userId } });
+          user = await prisma.user.findUnique({ where: { id: userId } });
         }
       }
 
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
       const userId = subscription.notes?.userId;
       if (userId) {
         await prisma.user.updateMany({
-          where: { clerkId: userId },
+          where: { id: userId },
           data: {
             isPro: false,
             razorpaySubscriptionId: null

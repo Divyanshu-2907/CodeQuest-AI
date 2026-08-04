@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Flame, Cpu } from "lucide-react";
 
 type UserData = {
