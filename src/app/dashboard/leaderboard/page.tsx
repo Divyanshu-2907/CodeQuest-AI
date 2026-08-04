@@ -76,11 +76,11 @@ export default function LeaderboardPage() {
       </div>
 
       {callerRank && (
-        <div className="mb-6 p-4 bg-gradient-to-r from-[var(--color-primary)]/20 to-transparent border border-[var(--color-primary)]/30 rounded-xl flex items-center justify-between">
+        <div className="mb-6 p-4 glass-panel border border-[var(--color-primary)]/30 rounded-sm flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Shield className="w-5 h-5 text-[var(--color-primary)]" />
             <div>
-              <div className="text-xs text-[var(--color-muted)] uppercase">Your Rank</div>
+              <div className="text-xs text-[#AFA9EC] uppercase font-mono">Your Rank</div>
               <div className="text-lg font-bold text-white"># {callerRank}</div>
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function LeaderboardPage() {
                       {rank > 3 && `#${rank}`}
                     </td>
                     <td className="p-4 font-semibold flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-purple-800 flex items-center justify-center font-bold text-white shadow-md text-xs border border-white/10">
+                      <div className="w-8 h-8 rounded-sm bg-[var(--color-primary)]/20 flex items-center justify-center font-bold text-[var(--color-primary)] shadow-md text-xs border border-[var(--color-primary)]/30">
                         {player.username?.substring(0, 2).toUpperCase() || "AG"}
                       </div>
                       <span>{player.username || "Anonymous Agent"}</span>

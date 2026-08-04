@@ -2,7 +2,6 @@ import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import PlayerHUD from "@/components/PlayerHUD";
 import ChapterMap, { ChapterWithStatus } from "@/components/ChapterMap";
 
 export default async function CityMapPage() {
@@ -19,8 +18,11 @@ export default async function CityMapPage() {
   });
 
   if (!user) {
-    // If the webhook hasn't fired yet, user might not exist in db
-    return <div className="p-8 text-[var(--color-primary)] animate-pulse">Syncing neural link... Please refresh.</div>;
+    return (
+      <div className="flex-1 flex items-center justify-center font-mono text-[var(--color-primary)] animate-pulse">
+        [ SYNCHRONIZING NEURAL LINK... ]
+      </div>
+    );
   }
 
   const chapters = await prisma.chapter.findMany({
@@ -37,7 +39,6 @@ export default async function CityMapPage() {
     }
   }
 
-  // Handle case where user has 0 XP but chapter 1 needs 0 XP
   if (highestUnlockedIndex === -1 && chapters.length > 0 && user.xp >= chapters[0].unlockXp) {
     highestUnlockedIndex = 0;
   }
@@ -60,39 +61,28 @@ export default async function CityMapPage() {
       status
     };
   });
+  console.log("SERVER LOG: chaptersWithStatus =", chaptersWithStatus);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] relative -m-8">
-      {/* Background styling to make it feel like a map */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--color-background)] pointer-events-none" />
+    <div className="absolute inset-0 z-0 overflow-hidden bg-[#0A0A0E]">
+      {/* Targeting Reticles Overlay (HUD aesthetic) */}
+      <div className="absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-[var(--color-primary)]/40 pointer-events-none z-20" />
+      <div className="absolute top-8 right-8 w-8 h-8 border-t-2 border-r-2 border-[var(--color-primary)]/40 pointer-events-none z-20" />
+      <div className="absolute bottom-8 left-8 w-8 h-8 border-b-2 border-l-2 border-[var(--color-primary)]/40 pointer-events-none z-20" />
+      <div className="absolute bottom-8 right-8 w-8 h-8 border-b-2 border-r-2 border-[var(--color-primary)]/40 pointer-events-none z-20" />
       
-      <PlayerHUD />
-      
-      <div className="flex-1 p-8 overflow-y-auto z-10 custom-scrollbar">
-        <div className="mb-10 mt-4">
-          <div className="heading-tag mb-3">
-            // NEURAL_CITY_GRID
-          </div>
-          <h1
-            className="city-heading-glitch text-4xl md:text-5xl"
-            data-text="NEURAL CITY"
-          >
-            NEURAL{" "}
-            <span style={{ color: "#7F77DD" }}>CITY</span>
-            <span className="heading-badge heading-badge-purple ml-4">GRID_ONLINE</span>
-          </h1>
-          <p
-            className="text-sm mt-4 border-l-2 pl-3 max-w-xl"
-            style={{ borderColor: "#7F77DD", color: "#6B6A72" }}
-          >
-            Select a district to infiltrate. Complete missions to gain XP, level up,
-            and unlock new areas of the city grid.
-          </p>
-        </div>
-
-        <ChapterMap chapters={chaptersWithStatus} isPro={user.isPro} />
+      {/* Coordinates / Map Legend */}
+      <div className="absolute top-10 left-20 text-[10px] font-mono text-gray-500 uppercase tracking-widest pointer-events-none z-20">
+        LAT: 45.9281 // LNG: -12.4920 <br/>
+        SECTOR: NEURAL_CITY_GRID
       </div>
+      
+      <div className="absolute top-10 right-20 text-right text-[10px] font-mono text-gray-500 uppercase tracking-widest pointer-events-none z-20">
+        THREAT LEVEL: <span className="text-yellow-500">MODERATE</span> <br/>
+        ENCRYPTION: <span className="text-green-500">ACTIVE</span>
+      </div>
+
+      <ChapterMap chapters={chaptersWithStatus} isPro={user.isPro} />
     </div>
   );
 }

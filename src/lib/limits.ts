@@ -25,14 +25,14 @@ export async function getRunsRemaining(userId: string, isPro: boolean): Promise<
   try {
     const entry = await prisma.dailyRunLimit.findUnique({
       where: {
-        userId_day: {
+        userId_date: {
           userId,
-          day,
+          date: day.toISOString(),
         },
       },
     });
 
-    const currentRuns = entry?.count || 0;
+    const currentRuns = entry?.runCount || 0;
     return Math.max(0, limit - currentRuns);
   } catch (err) {
     console.error("Failed to query daily run limits from Postgres:", err);
@@ -59,22 +59,22 @@ export async function incrementRunCount(userId: string): Promise<number> {
   const day = startOfDay(new Date());
   const entry = await prisma.dailyRunLimit.upsert({
     where: {
-      userId_day: {
+      userId_date: {
         userId,
-        day,
+        date: day.toISOString(),
       },
     },
     create: {
       userId,
-      day,
-      count: 1,
+      date: day.toISOString(),
+      runCount: 1,
     },
     update: {
-      count: {
+      runCount: {
         increment: 1,
       },
     },
   });
 
-  return entry.count;
+  return entry.runCount;
 }

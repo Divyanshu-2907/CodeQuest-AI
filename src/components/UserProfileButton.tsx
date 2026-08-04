@@ -39,7 +39,7 @@ export default function UserProfileButton({
   const initials = displayName.slice(0, 2).toUpperCase();
 
   return (
-    <div className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+    <div className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-[rgba(255,255,255,0.02)] transition-colors duration-200 active:scale-[0.98]">
       {userImage ? (
         <img
           src={userImage}
@@ -65,7 +65,7 @@ export default function UserProfileButton({
         onClick={handleSignOut}
         disabled={loading}
         title="Terminate Secure Connection"
-        className="p-1.5 rounded-md hover:bg-[rgba(255,255,255,0.05)] text-gray-500 hover:text-red-400 transition-colors cursor-pointer disabled:opacity-50"
+        className="p-1.5 rounded-md hover:bg-[rgba(255,255,255,0.05)] text-gray-500 hover:text-red-400 transition-all duration-200 active:scale-90 cursor-pointer disabled:opacity-50"
       >
         <LogOut className="w-4 h-4" />
       </button>

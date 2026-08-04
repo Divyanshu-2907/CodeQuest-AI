@@ -85,7 +85,7 @@ export default function ProfilePage() {
             NODE_ID: {user.id}
           </p>
         </div>
-        <div className="flex items-center space-x-3 bg-gradient-to-r from-[var(--color-primary)]/20 to-transparent p-3 rounded-xl border border-[var(--color-primary)]/30 w-fit">
+        <div className="flex items-center space-x-3 glass-panel p-3 rounded-sm border border-[var(--color-primary)]/30 w-fit">
           <Shield className="w-8 h-8 text-[var(--color-primary)]" />
           <div>
             <div className="text-xs text-[var(--color-muted)] uppercase font-mono">Current Clearance</div>
@@ -100,28 +100,28 @@ export default function ProfilePage() {
           <Trophy className="w-8 h-8 text-yellow-400" />
           <div>
             <div className="text-xs text-[var(--color-muted)] uppercase">Global Rank</div>
-            <div className="text-lg font-bold text-white">{globalRank ? `#${globalRank}` : "Unranked"}</div>
+            <div className="text-lg font-bold text-white font-mono">{globalRank ? `#${globalRank}` : "UNRANKED"}</div>
           </div>
         </div>
         <div className="p-4 bg-[var(--color-surface)] border border-[#2A2A35] rounded-xl flex items-center space-x-3">
           <Flame className="w-8 h-8 text-orange-500" />
           <div>
             <div className="text-xs text-[var(--color-muted)] uppercase">Active Streak</div>
-            <div className="text-lg font-bold text-white">{user.streak} Days</div>
+            <div className="text-lg font-bold text-white font-mono">{user.streak} DAYS</div>
           </div>
         </div>
         <div className="p-4 bg-[var(--color-surface)] border border-[#2A2A35] rounded-xl flex items-center space-x-3">
           <CheckCircle className="w-8 h-8 text-green-400" />
           <div>
             <div className="text-xs text-[var(--color-muted)] uppercase">Missions</div>
-            <div className="text-lg font-bold text-white">{completedMissionsCount} Cleared</div>
+            <div className="text-lg font-bold text-white font-mono">{completedMissionsCount} CLEARED</div>
           </div>
         </div>
         <div className="p-4 bg-[var(--color-surface)] border border-[#2A2A35] rounded-xl flex items-center space-x-3">
           <Cpu className="w-8 h-8 text-[var(--color-primary)]" />
           <div>
             <div className="text-xs text-[var(--color-muted)] uppercase">Badges</div>
-            <div className="text-lg font-bold text-white">{user.userBadges.length} Unlocked</div>
+            <div className="text-lg font-bold text-white font-mono">{user.userBadges.length} UNLOCKED</div>
           </div>
         </div>
       </div>
@@ -141,10 +141,10 @@ export default function ProfilePage() {
               return (
                 <div 
                   key={badge.id} 
-                  className={`p-4 border rounded-xl flex flex-col items-center text-center justify-between transition-all ${
+                  className={`p-4 border-l-2 flex flex-col items-center text-center justify-between transition-all ${
                     isEarned 
                       ? 'border-[var(--color-primary)] bg-[var(--color-primary)]/5 text-white' 
-                      : 'border-[#2A2A35] bg-[#2A2A35]/20 text-gray-500 opacity-60'
+                      : 'border-[#2A2A35] bg-transparent text-gray-500 opacity-60'
                   }`}
                 >
                   <div className="relative mb-2">

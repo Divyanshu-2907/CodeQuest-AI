@@ -29,7 +29,7 @@ export default function SidebarNav({ isPro }: SidebarNavProps) {
           <Link
             key={href}
             href={href}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-[background-color,border-color,color] duration-200 ease-out active:scale-95 ${
               isActive 
                 ? "glass-active" 
                 : "hover:bg-[rgba(127,119,221,0.1)] hover:border hover:border-[rgba(127,119,221,0.3)] border border-transparent"
@@ -45,7 +45,7 @@ export default function SidebarNav({ isPro }: SidebarNavProps) {
       {!isPro && (
         <Link
           href="/dashboard/upgrade"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold mt-2 transition-all hover:shadow-[0_0_15px_rgba(250,199,117,0.4)]"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-bold mt-2 transition-[box-shadow,transform] duration-200 ease-out active:scale-[0.98] hover:shadow-[0_0_15px_rgba(250,199,117,0.4)]"
           style={{
             background: "rgba(250,199,117,0.08)",
             color: "#FAC775",

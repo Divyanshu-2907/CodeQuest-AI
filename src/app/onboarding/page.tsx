@@ -160,7 +160,7 @@ export default function OnboardingPage() {
         <div className="flex justify-between items-center mb-8 px-4">
           {[1, 2, 3, 4].map((s) => (
             <div key={s} className="flex items-center flex-1 last:flex-none">
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center font-bold text-sm transition-all duration-300 ${
+              <div className={`w-8 h-8 rounded-sm border flex items-center justify-center font-bold text-sm transition-all duration-300 ${
                 step >= s
                   ? "bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-[0_0_15px_rgba(127,119,221,0.5)]"
                   : "border-[#2A2A35] bg-[#1E1E2A]/50 text-gray-500"
@@ -386,7 +386,7 @@ export default function OnboardingPage() {
               <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-primary)]/5 to-transparent pointer-events-none" />
               
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center font-bold text-sm text-white uppercase shadow-[0_0_15px_rgba(127,119,221,0.4)]">
+                <div className="w-10 h-10 rounded-sm bg-[var(--color-primary)] flex items-center justify-center font-bold text-sm text-white uppercase shadow-[0_0_15px_rgba(127,119,221,0.4)]">
                   G
                 </div>
                 <div>

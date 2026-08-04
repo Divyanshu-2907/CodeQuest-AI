@@ -36,7 +36,7 @@ export default async function MissionPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] relative -m-8 overflow-hidden bg-[var(--color-background)]">
+    <div className="absolute inset-0 flex flex-col overflow-hidden bg-[#0A0A0E]">
       <MissionRoomClient 
         mission={mission} 
         userMissionStatus={mission.userMissions[0]?.status || "LOCKED"} 

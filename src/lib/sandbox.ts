@@ -1,25 +1,3 @@
-interface PistonRuntime {
-  language: string;
-  version: string;
-  aliases: string[];
-}
-
-let runtimesCache: PistonRuntime[] = [];
-
-async function getPistonRuntimes(): Promise<PistonRuntime[]> {
-  if (runtimesCache.length > 0) return runtimesCache;
-  const baseUrl = process.env.PISTON_API_URL || "https://emkc.org/api/v2/piston";
-  try {
-    const res = await fetch(`${baseUrl}/runtimes`);
-    if (res.ok) {
-      runtimesCache = await res.json();
-    }
-  } catch (err) {
-    console.error("Failed to fetch Piston runtimes:", err);
-  }
-  return runtimesCache;
-}
-
 export interface SandboxResult {
   stdout: string;
   stderr: string;
@@ -28,7 +6,8 @@ export interface SandboxResult {
 }
 
 /**
- * Executes a chunk of code in the Piston sandbox environment.
+ * Executes code using the Judge0 API via RapidAPI.
+ * This is Vercel-compatible (Serverless) and entirely free.
  */
 export async function executeCodeInSandbox({
   language,
@@ -37,49 +16,60 @@ export async function executeCodeInSandbox({
   language: string;
   code: string;
 }): Promise<SandboxResult> {
-  const runtimes = await getPistonRuntimes();
   const normalizedLanguage = language.toLowerCase();
-
-  // Find matching runtime based on name or alias
-  const match = runtimes.find(
-    (r) =>
-      r.language.toLowerCase() === normalizedLanguage ||
-      r.aliases.map((a) => a.toLowerCase()).includes(normalizedLanguage)
-  );
-
-  const finalLanguage = match ? match.language : language;
-  const version = match ? match.version : "*";
-
-  const baseUrl = process.env.PISTON_API_URL || "https://emkc.org/api/v2/piston";
-
-  const response = await fetch(`${baseUrl}/execute`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      language: finalLanguage,
-      version,
-      files: [
-        {
-          content: code,
-        },
-      ],
-      run_timeout: 10000, // 10 seconds execution limit
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text().catch(() => "");
-    throw new Error(`Sandbox execution failed with status ${response.status}: ${errorText || response.statusText}`);
+  
+  if (normalizedLanguage !== "python" && normalizedLanguage !== "python3" && normalizedLanguage !== "py") {
+    throw new Error(`Language ${language} is not supported.`);
   }
 
-  const result = await response.json();
+  // If running locally, use the super-fast child_process fallback
+  if (process.env.NODE_ENV !== "production") {
+    return executeLocalFallback(code);
+  }
 
-  return {
-    stdout: result.run?.stdout || "",
-    stderr: result.run?.stderr || "",
-    exitCode: result.run?.code ?? 0,
-    output: result.run?.output || "",
-  };
+  // If deployed to Vercel, hit our native Vercel Python Serverless Function
+  const baseUrl = process.env.BETTER_AUTH_URL || "";
+  
+  const submitResponse = await fetch(`${baseUrl}/api/run_python`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({ code })
+  });
+
+  if (!submitResponse.ok) {
+    const errorText = await submitResponse.text().catch(() => "");
+    throw new Error(`Vercel Python execution failed: ${submitResponse.status} - ${errorText}`);
+  }
+
+  return await submitResponse.json();
+}
+
+// Keep the local fallback so your local dev server doesn't break while you set up the API key!
+async function executeLocalFallback(code: string): Promise<SandboxResult> {
+  const { exec } = await import("child_process");
+  const { writeFile, unlink } = await import("fs/promises");
+  const { join } = await import("path");
+  const { randomUUID } = await import("crypto");
+  const os = await import("os");
+
+  const tempFileName = join(os.tmpdir(), \`codequest_\${randomUUID()}.py\`);
+  await writeFile(tempFileName, code, "utf-8");
+
+  return new Promise((resolve) => {
+    exec(
+      \`python "\${tempFileName}"\`,
+      { timeout: 10000 },
+      async (error, stdout, stderr) => {
+        await unlink(tempFileName).catch(() => {});
+        resolve({
+          stdout,
+          stderr,
+          exitCode: error ? (error.code ?? 1) : 0,
+          output: stdout + stderr,
+        });
+      }
+    );
+  });
 }

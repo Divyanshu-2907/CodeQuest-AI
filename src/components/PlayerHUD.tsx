@@ -133,7 +133,7 @@ export default function PlayerHUD() {
           style={{ background: "#1A1A22" }}
         >
           <div
-            className="h-full rounded-full transition-all duration-1000 ease-out"
+            className="h-full rounded-full transition-[width] duration-300 ease-out"
             style={{ width: `${xpProgress}%`, background: "#7F77DD" }}
           />
         </div>

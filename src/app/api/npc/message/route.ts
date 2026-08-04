@@ -25,7 +25,23 @@ export async function POST(req: Request) {
     }
 
     if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json({ error: 'Gemini API key missing' }, { status: 500 });
+      console.warn("GEMINI_API_KEY is not defined in the server environment. Returning mock response.");
+      // Return a mock stream response to prevent the UI from breaking
+      const encoder = new TextEncoder();
+      const stream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: "[SYSTEM OVERRIDE] Gemini API Key missing in environment.\n\n" })}\n\n`));
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: "Agent, you need to establish a secure uplink to Google AI before I can properly analyze your code.\n" })}\n\n`));
+          controller.close();
+        }
+      });
+      return new Response(stream, {
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+        },
+      });
     }
 
     const chapter = mission.chapter;
